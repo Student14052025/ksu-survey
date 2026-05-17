@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استبيان رضا خريجي جامعة الملك سعود</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --green-dark: #085041;
+    --amber: #BA7517;
+    --amber-light: #FAEEDA;
+    --text: #1a1a1a;
+    --text-muted: #5a5a5a;
+    --border: #e0e0e0;
+    --bg: #f7f7f5;
+    --card: #ffffff;
+    --radius: 14px;
+    --shadow: 0 2px 16px rgba(0,0,0,0.07);
+  }
+
+  body {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #085041 0%, #1D9E75 60%, #5DCAA5 100%);
+    padding: 3rem 2rem 5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 60px;
+    background: var(--bg);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .logo-circle {
+    width: 70px;
+    height: 70px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.2rem;
+    font-size: 28px;
+  }
+  .hero h1 {
+    color: #fff;
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: -2.5rem auto 3rem;
+    padding: 0 1.25rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .card h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+  }
+
+  .step-indicator {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+  }
+  .step-dot {
+    height: 4px;
+    flex: 1;
+    background: var(--border);
+    border-radius: 2px;
+    transition: background 0.3s;
+  }
+  .step-dot.active { background: var(--green); }
+  .step-dot.done { background: #9FE1CB; }
+
+  label.field-label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 0.45rem;
+  }
+
+  select, input[type="number"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: #fafaf8;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 1rem;
+  }
+  select:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(29,158,117,0.12);
+  }
+  .select-wrapper {
+    position: relative;
+  }
+  .select-wrapper::after {
+    content: '▾';
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+    font-size: 0.85rem;
+  }
+
+  .rating-section {
+    margin-bottom: 1.5rem;
+  }
+  .q-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.9rem;
+    line-height: 1.6;
+  }
+  .q-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .rating-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .rating-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+  }
+  .rating-buttons {
+    display: flex;
+    gap: 5px;
+  }
+  .rating-btn {
+    flex: 1;
+    padding: 0.55rem 0;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: #fafaf8;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .rating-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+    background: var(--green-light);
+  }
+  .rating-btn.selected {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+    font-weight: 600;
+  }
+  .rating-btn.selected-low {
+    background: #D85A30;
+    border-color: #D85A30;
+    color: #fff;
+  }
+  .rating-btn.selected-mid {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #fff;
+  }
+
+  .nav-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .btn {
+    flex: 1;
+    padding: 0.8rem;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--green-dark); }
+  .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1.5px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: #999; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.2rem 0;
+  }
+
+  .success-card {
+    text-align: center;
+    padding: 3rem 2rem;
+  }
+  .success-icon {
+    width: 72px;
+    height: 72px;
+    background: var(--green-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+  }
+  .success-card h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+  .success-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .hidden { display: none; }
+
+  .error-msg {
+    color: #D85A30;
+    font-size: 0.82rem;
+    margin-top: -0.6rem;
+    margin-bottom: 0.8rem;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+
+  .summary-box {
+    background: var(--green-light);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.2rem;
+  }
+  .summary-box p { font-size: 0.88rem; color: var(--green-dark); margin-bottom: 0.2rem; }
+  .summary-box p:last-child { margin: 0; }
+  .summary-box span { font-weight: 600; }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1rem;
+    padding: 0.65rem 1.25rem;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 1.5px solid #9FE1CB;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .download-btn:hover { background: #9FE1CB; }
+
+  @media (max-width: 500px) {
+    .rating-buttons { gap: 3px; }
+    .rating-btn { font-size: 0.78rem; padding: 0.45rem 0; }
+    .card { padding: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo-circle">🎓</div>
+  <h1>استبيان رضا الخريجين<br>جامعة الملك سعود</h1>
+  <p>نسعى لتطوير تجربتك الأكاديمية — آراؤك تُحدث فارقاً</p>
+</div>
+
+<div class="container">
+
+  <!-- Step 1: Demographics -->
+  <div id="step1" class="card">
+    <div class="section-label">المرحلة ١ من ٢</div>
+    <h2>البيانات الأساسية</h2>
+    <div class="step-indicator">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+    </div>
+
+    <label class="field-label">الكلية</label>
+    <div class="select-wrapper">
+      <select id="collegeSelect" onchange="onCollegeChange()">
+        <option value="">— اختر الكلية —</option>
+      </select>
+    </div>
+    <p class="error-msg" id="err-college">يرجى اختيار الكلية</p>
+
+    <div id="deptGroup" class="hidden">
+      <label class="field-label">القسم</label>
+      <div class="select-wrapper">
+        <select id="deptSelect" onchange="onDeptChange()">
+          <option value="">— اختر القسم —</option>
+        </select>
+      </div>
+      <p class="error-msg" id="err-dept">يرجى اختيار القسم</p>
+    </div>
+
+    <div id="majorGroup" class="hidden">
+      <label class="field-label">التخصص</label>
+      <div class="select-wrapper">
+        <select id="majorSelect">
+          <option value="">— اختر التخصص —</option>
+        </select>
+      </div>
+      <p class="error-msg" id="err-major">يرجى اختيار التخصص</p>
+    </div>
+
+    <div id="yearGroup">
+      <label class="field-label">سنة التخرج</label>
+      <input type="number" id="gradYear" min="1980" max="2025" placeholder="مثال: 2022" />
+      <p class="error-msg" id="err-year">يرجى إدخال سنة تخرج صحيحة (١٩٨٠ – ٢٠٢٥)</p>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-primary" onclick="goToStep2()">التالي ←</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Questions -->
+  <div id="step2" class="card hidden">
+    <div class="section-label">المرحلة ٢ من ٢</div>
+    <h2>أسئلة الرضا</h2>
+    <div class="step-indicator">
+      <div class="step-dot done" id="dot1b"></div>
+      <div class="step-dot active" id="dot2b"></div>
+    </div>
+
+    <div id="summary-display" class="summary-box"></div>
+
+    <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1.4rem;">
+      قيّم من <strong>١</strong> (غير راضٍ أبداً) إلى <strong>١٠</strong> (راضٍ تماماً)
+    </p>
+
+    <div class="rating-section">
+      <p class="q-text"><span class="q-number">١</span> ما مدى رضاك بشكل عام عن تجربتك الدراسية في الكلية / القسم / التخصص؟</p>
+      <div class="rating-row">
+        <div class="rating-labels"><span>غير راضٍ أبداً</span><span>راضٍ تماماً</span></div>
+        <div class="rating-buttons" id="rating1"></div>
+      </div>
+      <p class="error-msg" id="err-q1">يرجى اختيار تقييم</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="rating-section">
+      <p class="q-text"><span class="q-number">٢</span> ما مدى رضاك عن جودة التدريس والمحتوى العلمي الذي قُدِّم في البرنامج؟</p>
+      <div class="rating-row">
+        <div class="rating-labels"><span>غير راضٍ أبداً</span><span>راضٍ تماماً</span></div>
+        <div class="rating-buttons" id="rating2"></div>
+      </div>
+      <p class="error-msg" id="err-q2">يرجى اختيار تقييم</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="rating-section">
+      <p class="q-text"><span class="q-number">٣</span> ما مدى رضاك عن الدعم والخدمات المقدمة للطلبة أثناء الدراسة (الإرشاد الأكاديمي، التواصل، الدعم الإداري، وغيرها)؟</p>
+      <div class="rating-row">
+        <div class="rating-labels"><span>غير راضٍ أبداً</span><span>راضٍ تماماً</span></div>
+        <div class="rating-buttons" id="rating3"></div>
+      </div>
+      <p class="error-msg" id="err-q3">يرجى اختيار تقييم</p>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goBack()">→ رجوع</button>
+      <button class="btn btn-primary" onclick="submitSurvey()">إرسال الاستبيان</button>
+    </div>
+  </div>
+
+  <!-- Success -->
+  <div id="stepDone" class="card success-card hidden">
+    <div class="success-icon">✓</div>
+    <h2>شكراً لمشاركتك!</h2>
+    <p>تم تسجيل إجابتك بنجاح.<br>مساهمتك تُساعدنا على تحسين تجربة الطلاب في جامعة الملك سعود.</p>
+    <br>
+    <button class="btn btn-secondary" style="max-width:200px; margin:0 auto;" onclick="resetSurvey()">تعبئة استبيان جديد</button>
+  </div>
+
+  <!-- Admin panel -->
+  <div class="card" id="adminPanel">
+    <div class="section-label">لوحة المشرف</div>
+    <h2>الاستجابات المسجّلة</h2>
+    <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem;">
+      جميع الاستجابات مخزّنة محلياً في المتصفح. اضغط على زر التصدير لتحميلها كملف Excel.
+    </p>
+    <p style="font-size:0.95rem; margin-bottom:0.5rem;">
+      عدد الاستجابات: <strong id="responseCount">0</strong>
+    </p>
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.75rem;">
+      <button class="download-btn" onclick="exportToCSV()">📥 تصدير CSV (Excel)</button>
+      <button class="btn btn-secondary" style="flex:none; padding:0.65rem 1.1rem; font-size:0.88rem;" onclick="clearData()">🗑 مسح البيانات</button>
+    </div>
+    <div id="previewTable" style="margin-top:1.2rem; overflow-x:auto;"></div>
+  </div>
+
+</div>
+
+<script>
+const DATA = {"العلوم الطبية التطبيقية":{"التكنولوجيا الطبية الحيوية":["تقنية طبية حيوية -أجهزة","الهندسة الطبية الحيوية"],"العلوم الإشعاعية":["علوم الأشعة"],"صحة المجتمع":["علوم صحة المجتمع -تعليم صحى","التغذية السريرية"],"البصريات وعلوم الرؤية":["دكتور البصريات"],"علوم المختبرات الإكلينيكية":["علوم المختبرات الإكلينيكية"],"علوم التأهيل الصحي":["العلاج الطبيعي","علاج علل النطق والسمع","العلاج الوظيفي","العلاج التنفسي"],"صحة الأسنان":["رعاية الأسنان","تقنية الأسنان"]},"الهندسة":{"الهندسة الكـهربائية":["الإلكترونيات","إلكترونيات","أنظمة اتصالات","القوى الكهربائية","الهندسة الكهربائية"],"الهندسة الميكانيكية":["الهندسة الميكانيكية"],"الهندسة المدنية":["هندسة المساحة","الهندسة المدنية"],"الهندسة الصناعية":["الهندسة الصناعية"],"الهندسة الكيميائية":["علوم وهندسة المواد","الصناعات البترولية والبتروكيميائية","الهندسة الكيميائية"],"هندسة البترول والغاز الطبيعي":["هندسة البترول والغاز الطبيعي"]},"الآداب":{"الدراسات الاجتماعية":["الأسرة والسكان","الخدمة الاجتماعية","علم الاجتماع"],"الإعلام":["إعلام-علاقات عامه","مسار العلاقات العامة","مسار الإعلام المرئي والمسموع","مسار الصحافة والنشر الإلكتروني"],"اللغة الإنجليزية*":["لغة إنجليزية","اللغة الإنجليزية"],"اللغة العربية":["لغة عربية"],"علم المعلومات":["مسار إدارة مصادر المعلومات وخدماتها","مسار إدارة السجلات والحفظ الإلكتروني"],"الجغرافيا":["مسار التنمية الإقليمية","مسار الخرائط ونظم المعلومات الجغرافية"],"التاريخ":["تاريخ"]},"الطب":{"غير محدد":["طب وجراحة"]},"العمارة والتخطيط":{"التخطيط العمراني":["التصميم العمراني","التخطيط العمراني"],"العمارة وعلوم البناء":["العمارة وعلوم البناء"]},"إدارة الأعمال":{"التسويق":["التسويق"],"المحاسبة":["المحاسبة"],"الإدارة":["مسار إدارة الموارد البشرية","مسار الإدارة"],"الاقتصاد":["مسار الاقتصاد العام","مسار المصرفية الاسلامية"],"المالية":["مسار المالية العام"],"نظم المعلومات الإدارية":["نظم المعلومات الإدارية"]},"اللغات والترجمة":{"اللغة الفرنسية والترجمة*":["اللغة الفرنسية والترجمة"],"اللغات الحديثة والترجمة*":["اللغة العبرية والترجمة","اللغة الفارسية والترجمة","اللغة الإسبانية والترجمة","اللغة التركية والترجمة","اللغة الصينية والترجمة","اللغة الروسية والترجمة","اللغة اليابانية والترجمة","اللغة الألمانية والترجمة"],"اللغة الإنجليزية والترجمة*":["اللغة الإنجليزية والترجمة"],"اللغات الأوربية والترجمة*":["لغة إنجليزية"]},"الحقوق والعلوم السياسية":{"القانون العام":["الحقوق"],"العلوم السياسية":["العلوم السياسية"]},"التربية":{"علم النفس":["أخصائي نفسي","تدريس علم النفس"],"الدراسات القرآنية":["الدراسات القرآنية","القراءات"],"الدراسات الإسلامية":["دراسات إسلامية ( الفقه وأصوله)","دراسات إسلامية (التفسير والحديث)","دراسات إسلامية (العقيدة)","مسار الفقه","دراسات إسلامية (السنة وعلومها)","مسار العقيدة","مسار السنة وعلومها"],"الطفولة المبكرة":["تعليم ماقبل المرحلة الابتدائية","تعليم ما قبل المرحلة الابتدائية"],"التربية الفنية*":["التربية الفنية"],"المناهج وطرق التدريس":["الرياضيات","اللغة الإنجليزية","الحاسب الآلي","الفيزياء"],"التربية الخاصة":["التربية الخاصة - مسار صعوبات التعلم","التربية الخاصة - مسار الإعاقة السمعية","التربية الخاصة - مسار الاضطرابات السلوكية والتوحد","التربية الخاصة - مسار التخلف العقلي","التربية الخاصة - مسار الإعاقة الفكرية","التربية الخاصة - مسار تربية الصم وضعاف السمع"]},"علوم الأغذية والزراعة":{"علوم الأغذية والتغذية":["علوم الأغذية وتغذية الإنسان","مسار تغذية الأنسان","مسار علوم الأغذية"],"الهندسة الزراعية":["الهندسة الزراعية"],"الاقتصاد الزراعي":["الاقتصاد التطبيقي"],"الإنتاج النباتي":["علوم الإنتاج النباتي"],"وقاية النبات":["وقاية النبات"],"الإنتاج الحيواني":["الإنتاج الحيواني"]},"العلوم":{"الفيزياء والفلك":["الفيزياء"],"الكيمياء":["الكيمياء"],"الكيمياء الحيوية":["الكيمياء الحيوية"],"الإحصاء وبحوث العمليات":["بحوث العمليات","الإحصاء"],"النبات والأحياء الدقيقة":["المسار العام","نبات","المسار التطبيقي","الأحياء الدقيقة"],"الرياضيات":["الرياضيات","الرياضيات الإكتوارية والمالية"],"الجيولوجيا والجيوفيزياء":["الجيوفيزياء","الجيولوجيا"],"علم الحيوان":["علم الحيوان"]},"العلوم الإنسانية والاجتماعية":{"اللغة الإنجليزية*":["لغة إنجليزية","اللغة الإنجليزية"],"علم المعلومات":["مسار إدارة مصادر المعلومات وخدماتها","مسار إدارة السجلات والحفظ الإلكتروني"],"اللغة العربية":["لغة عربية"],"الإعلام":["مسار الاتصال الاستراتيجي (العلاقات العامة)","مسار العلاقات العامة","مسار الصحافة والنشر الإلكتروني","مسار الإعلام المرئي والمسموع"],"التاريخ":["تاريخ"],"الدراسات الاجتماعية":["الخدمة الاجتماعية","علم الاجتماع"],"الجغرافيا":["مسار الخرائط ونظم المعلومات الجغرافية","مسار التنمية الإقليمية"]},"الدراسات التطبيقية وخدمة المجتمع":{"العلوم الطبيعية والهندسية":["الحوسبة التطبيقية (مسار شبكات الحاسب)","الحوسبة التطبيقية (مسار الأمن السيبراني)"]},"طب الأسنان":{"غير محدد":["طب أسنان عام"]},"التمريض":{"غير محدد":["تمريض","العلوم في القبالة"]},"علوم الحاسب والمعلومات":{"هندسة البرمجيات":["هندسة البرمجيات"],"علوم الحاسب":["علوم الحاسب","علوم الحاسب والمعلومات"],"نظم المعلومات":["نظم المعلومات"],"هندسة الحاسب":["هندسة الحاسب"],"تقنية المعلومات":["مسار الأمن السيبراني","مسار الشبكات وهندسة إنترنت الأشياء","مسار علم البيانات والذكاء الاصطناعي"]},"إدارة الأعمال التطبيقية":{"المالية التطبيقي":["المالية التطبيقي"],"التسويق التطبيقي":["التسويق التطبيقي"]},"علوم الرياضة والنشاط البدني":{"عام":["اللياقة البدنية","تدريس التربية البدنية","الإدارة الرياضية والترويحية","التدريب الرياضي"]},"اللغات وعلومها":{"اللغة الإنجليزية":["اللغة الإنجليزية والترجمة","اللغة الإنجليزية وآدابها"],"اللغات الأوروبية والشرقية":["اللغة اليابانية والترجمة","اللغة الإسبانية والترجمة","اللغة العبرية والترجمة","اللغة الفارسية والترجمة","اللغة الألمانية والترجمة","اللغة الروسية والترجمة","اللغة التركية والترجمة"],"اللغة الفرنسية":["اللغة الفرنسية والترجمة"],"اللغة الصينية":["اللغة الصينية والترجمة"]},"السياحة والآثار":{"الآثار":["الآثار","مسار الآثار","مسار ترميم الآثار وصيانتها"],"الإدارة السياحية والفندقية":["الإدارة السياحية","الإدارة الفندقية"],"إدارة موارد التراث والإرشاد السياحي":["مسار إدارة موارد التراث","مسار الإرشاد السياحي"]},"علوم الحاسب التطبيقي":{"نظم المعلومات التطبيقي":["مسار علم البيانات"],"علوم الحاسب التطبيقي":["مسار شبكات الحاسب"]},"الصيدلة":{"غير محدد":["علوم صيدلية","دكتور صيدلة"]},"الهندسة التطبيقية":{"الهندسة الميكانيكية التطبيقية":["الهندسة الميكانيكية التطبيقية"],"الهندسة الكهربائية التطبيقية":["الهندسة الكهربائية التطبيقية"]},"الأمير سلطان بن عبدالعزيز للخدمات الطبية الطارئة":{"عام":["علوم الخدمات الطبية الطارئة"]}};
+
+const ratings = { q1: null, q2: null, q3: null };
+const STORAGE_KEY = 'ksu_survey_responses';
+
+function getResponses() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function saveResponses(arr) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+function init() {
+  const col = document.getElementById('collegeSelect');
+  Object.keys(DATA).sort().forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    col.appendChild(o);
+  });
+  buildRating('rating1', 'q1');
+  buildRating('rating2', 'q2');
+  buildRating('rating3', 'q3');
+  updateAdminPanel();
+}
+
+function buildRating(containerId, key) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  for (let i = 1; i <= 10; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'rating-btn';
+    btn.textContent = i;
+    btn.onclick = () => selectRating(key, i, containerId);
+    container.appendChild(btn);
+  }
+}
+
+function selectRating(key, val, containerId) {
+  ratings[key] = val;
+  document.getElementById('err-' + key).classList.remove('show');
+  const btns = document.getElementById(containerId).querySelectorAll('.rating-btn');
+  btns.forEach((btn, i) => {
+    const n = i + 1;
+    btn.classList.remove('selected','selected-low','selected-mid');
+    if (n === val) {
+      if (val <= 3) btn.classList.add('selected', 'selected-low');
+      else if (val <= 6) btn.classList.add('selected', 'selected-mid');
+      else btn.classList.add('selected');
+    }
+  });
+}
+
+function onCollegeChange() {
+  const college = document.getElementById('collegeSelect').value;
+  const deptGroup = document.getElementById('deptGroup');
+  const majorGroup = document.getElementById('majorGroup');
+  document.getElementById('err-college').classList.remove('show');
+
+  if (!college) { deptGroup.classList.add('hidden'); majorGroup.classList.add('hidden'); return; }
+
+  const deptSel = document.getElementById('deptSelect');
+  deptSel.innerHTML = '<option value="">— اختر القسم —</option>';
+  Object.keys(DATA[college]).sort().forEach(d => {
+    const o = document.createElement('option');
+    o.value = d; o.textContent = d;
+    deptSel.appendChild(o);
+  });
+  deptGroup.classList.remove('hidden');
+  majorGroup.classList.add('hidden');
+
+  const depts = Object.keys(DATA[college]);
+  if (depts.length === 1 && depts[0] === 'غير محدد') {
+    deptSel.value = 'غير محدد';
+    onDeptChange();
+  }
+}
+
+function onDeptChange() {
+  const college = document.getElementById('collegeSelect').value;
+  const dept = document.getElementById('deptSelect').value;
+  const majorGroup = document.getElementById('majorGroup');
+  document.getElementById('err-dept').classList.remove('show');
+
+  if (!dept || !college) { majorGroup.classList.add('hidden'); return; }
+
+  const majorSel = document.getElementById('majorSelect');
+  majorSel.innerHTML = '<option value="">— اختر التخصص —</option>';
+  const majors = DATA[college][dept] || [];
+  majors.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m;
+    majorSel.appendChild(o);
+  });
+  majorGroup.classList.remove('hidden');
+
+  if (majors.length === 1) { majorSel.value = majors[0]; }
+}
+
+function goToStep2() {
+  let valid = true;
+  const college = document.getElementById('collegeSelect').value;
+  const dept = document.getElementById('deptSelect').value;
+  const major = document.getElementById('majorSelect').value;
+  const year = document.getElementById('gradYear').value;
+
+  if (!college) { document.getElementById('err-college').classList.add('show'); valid = false; }
+  if (!dept) { document.getElementById('err-dept').classList.add('show'); valid = false; }
+  if (!major) { document.getElementById('err-major').classList.add('show'); valid = false; }
+  const y = parseInt(year);
+  if (!year || y < 1980 || y > 2025) { document.getElementById('err-year').classList.add('show'); valid = false; }
+
+  if (!valid) return;
+
+  const deptName = dept === 'غير محدد' ? '' : ` — ${dept}`;
+  document.getElementById('summary-display').innerHTML = `
+    <p>🎓 <span>${college}${deptName}</span></p>
+    <p>📚 التخصص: <span>${major}</span></p>
+    <p>📅 سنة التخرج: <span>${year}</span></p>
+  `;
+
+  document.getElementById('step1').classList.add('hidden');
+  document.getElementById('step2').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function goBack() {
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('step1').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function submitSurvey() {
+  let valid = true;
+  if (!ratings.q1) { document.getElementById('err-q1').classList.add('show'); valid = false; }
+  if (!ratings.q2) { document.getElementById('err-q2').classList.add('show'); valid = false; }
+  if (!ratings.q3) { document.getElementById('err-q3').classList.add('show'); valid = false; }
+  if (!valid) return;
+
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const timestamp = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+  const dept = document.getElementById('deptSelect').value;
+  const record = {
+    timestamp,
+    college: document.getElementById('collegeSelect').value,
+    dept: dept === 'غير محدد' ? '' : dept,
+    major: document.getElementById('majorSelect').value,
+    grad_year: document.getElementById('gradYear').value,
+    q1: ratings.q1,
+    q2: ratings.q2,
+    q3: ratings.q3
+  };
+
+  const all = getResponses();
+  all.push(record);
+  saveResponses(all);
+
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('stepDone').classList.remove('hidden');
+  updateAdminPanel();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function resetSurvey() {
+  ratings.q1 = null; ratings.q2 = null; ratings.q3 = null;
+  document.getElementById('collegeSelect').value = '';
+  document.getElementById('deptGroup').classList.add('hidden');
+  document.getElementById('majorGroup').classList.add('hidden');
+  document.getElementById('gradYear').value = '';
+  buildRating('rating1','q1'); buildRating('rating2','q2'); buildRating('rating3','q3');
+  document.getElementById('stepDone').classList.add('hidden');
+  document.getElementById('step1').classList.remove('hidden');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function updateAdminPanel() {
+  const data = getResponses();
+  document.getElementById('responseCount').textContent = data.length;
+
+  const preview = document.getElementById('previewTable');
+  if (data.length === 0) { preview.innerHTML = ''; return; }
+
+  const last5 = data.slice(-5).reverse();
+  let html = `<table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+    <thead><tr style="background:#f0f0ec;">
+      <th style="padding:6px 8px;text-align:right;border-bottom:1px solid #e0e0e0;">الوقت</th>
+      <th style="padding:6px 8px;text-align:right;border-bottom:1px solid #e0e0e0;">الكلية</th>
+      <th style="padding:6px 8px;text-align:right;border-bottom:1px solid #e0e0e0;">التخصص</th>
+      <th style="padding:6px 8px;text-align:right;border-bottom:1px solid #e0e0e0;">س١</th>
+      <th style="padding:6px 8px;text-align:right;border-bottom:1px solid #e0e0e0;">س٢</th>
+      <th style="padding:6px 8px;text-align:right;border-bottom:1px solid #e0e0e0;">س٣</th>
+    </tr></thead><tbody>`;
+  last5.forEach(r => {
+    html += `<tr>
+      <td style="padding:5px 8px;border-bottom:0.5px solid #eee;color:#666;">${r.timestamp}</td>
+      <td style="padding:5px 8px;border-bottom:0.5px solid #eee;">${r.college}</td>
+      <td style="padding:5px 8px;border-bottom:0.5px solid #eee;">${r.major}</td>
+      <td style="padding:5px 8px;border-bottom:0.5px solid #eee;text-align:center;"><strong>${r.q1}</strong></td>
+      <td style="padding:5px 8px;border-bottom:0.5px solid #eee;text-align:center;"><strong>${r.q2}</strong></td>
+      <td style="padding:5px 8px;border-bottom:0.5px solid #eee;text-align:center;"><strong>${r.q3}</strong></td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  if (data.length > 5) html += `<p style="font-size:0.78rem;color:#999;margin-top:6px;">يعرض آخر 5 استجابات من أصل ${data.length}</p>`;
+  preview.innerHTML = html;
+}
+
+function exportToCSV() {
+  const data = getResponses();
+  if (data.length === 0) { alert('لا توجد بيانات للتصدير'); return; }
+
+  const headers = ['الوقت','الكلية','القسم','التخصص','سنة_التخرج','س1_الرضا_العام','س2_جودة_التدريس','س3_الدعم_والخدمات'];
+  const rows = data.map(r => [
+    r.timestamp, r.college, r.dept, r.major, r.grad_year, r.q1, r.q2, r.q3
+  ]);
+
+  const BOM = '\uFEFF';
+  const csvContent = BOM + [headers, ...rows].map(row =>
+    row.map(cell => `"${String(cell ?? '').replace(/"/g,'""')}"`).join(',')
+  ).join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const d = new Date();
+  a.download = `استبيان_خريجي_KSU_${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearData() {
+  if (confirm('هل أنت متأكد من مسح جميع البيانات؟ لا يمكن التراجع.')) {
+    localStorage.removeItem(STORAGE_KEY);
+    updateAdminPanel();
+  }
+}
+
+init();
+</script>
+</body>
+</html>
